@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_event, my_events
+from .views import register_event, my_events, home
 
 urlpatterns = [
     path('', home),
