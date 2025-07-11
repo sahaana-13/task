@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register for Event</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f9fc;
+            padding: 40px;
+            text-align: center;
+        }
+
+        form {
+            display: inline-block;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 10px 0;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎫 Register for an Event</h1>
+
+    <form method="post" action="/register-event/">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Your Name" required><br>
+        <input type="text" name="college" placeholder="College Name" required><br>
+        <input type="email" name="email" placeholder="Email Address" required><br>
+        <input type="number" name="event" placeholder="Event ID" required><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <p><a href="/home/">⬅ Back to Home</a></p>
+</body>
+</html>
