@@ -16,9 +16,9 @@ def register_event(request):
         return Response({"message": "Registration successful!"}, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['POst'])
 def my_events(request):
-    email = request.query_params.get('email')
+    email = request.data.get('email')
     if not email:
         return Response({"error": "Email query parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
     
