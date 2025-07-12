@@ -44,18 +44,46 @@ def register_event(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 # API endpoint: POST /my-events/
-@api_view(['POST'])
+@api_view(['GET'])
 def my_events(request):
-    email = request.data.get('email')
+    email = request.query_params.get('email')
     if not email:
         return Response({"error": "Email query parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
-    
+
+    # Get all registrations for that email
     registrations = Registration.objects.filter(email=email)
-    events = Event.objects.filter(id__in=registrations.values('event'))
+
+    # Get event IDs from those registrations
+    event_ids = registrations.values_list('event_id', flat=True)
+
+    # Fetch event objects for those IDs
+    events = Event.objects.filter(id__in=event_ids)
+
+    # Serialize event queryset
     serializer = EventSerializer(events, many=True)
-    
+
+    # Map serializer data to your expected JSON format
     response_data = [
         {"event_id": event["id"], "event_name": event["name"]}
         for event in serializer.data
     ]
+
     return Response(response_data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def add_event(request):
+    name = request.data.get('name')
+
+    if not name:
+        return Response(
+            {"error": "Event name is required."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # Create the event
+    event = Event.objects.create(name=name)
+    
+    return Response(
+        {"message": "Event created successfully!", "event_id": event.id, "event_name": event.name},
+        status=status.HTTP_201_CREATED
+    )
