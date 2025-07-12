@@ -15,3 +15,5 @@ urlpatterns = [
     path('register/', registration_form, name='register-form'),
     path('my-events-form/', my_events_form, name='my-events-form'),
 ]
+
+

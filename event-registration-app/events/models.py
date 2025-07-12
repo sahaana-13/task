@@ -14,3 +14,15 @@ class Registration(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.event.name}"
+
+# models.py
+
+class Todo(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
