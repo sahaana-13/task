@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Event, Registration, Todo
 from .serializers import RegistrationSerializer, EventSerializer, TodoSerializer
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 
 # Homepage view - renders home.html
 def home(request):
@@ -142,3 +143,27 @@ def api_login(request):
         })
     else:
         return Response({"error": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['POST'])
+def register_user(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    email = request.data.get('email')
+
+    if not username or not password or not email:
+        return Response(
+            {"error": "Username, email, and password are required."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if User.objects.filter(username=username).exists():
+        return Response(
+            {"error": "Username already exists."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    user = User.objects.create_user(username=username, email=email, password=password)
+    return Response(
+        {"message": "User registered successfully!", "username": user.username},
+        status=status.HTTP_201_CREATED
+    )

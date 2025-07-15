@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     register_event, my_events, home, registration_form,
-    my_events_form, add_event, todo_list_create, todo_detail,api_login,
+    my_events_form, add_event, todo_list_create, todo_detail,api_login,register_user
 )
 from django.shortcuts import redirect
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('my-events/', my_events, name='my-events'),
     path('add-event/', add_event, name='add-event'),
     path('login/', api_login, name='login'),
+    path('register-user/', register_user, name='register-user'),
 
     # Optional: HTML form pages
     path('register/', registration_form, name='register-form'),
